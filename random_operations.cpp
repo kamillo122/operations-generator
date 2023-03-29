@@ -57,7 +57,7 @@ int main() {
     plik.close();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-    plik.good() ? std::cout << "Poprawnie zapisano " << num_counter << " operacji\n" : std::cout << "Blad podczas zapisu\n";
+    plik.good() ? std::cout << "Successfully saved " << num_counter << " operations\n" : std::cout << "Error while saving\n";
     std::cout << "Time taken by put to file operations: " << duration.count() << " ms\n";
     return 0;
 }
