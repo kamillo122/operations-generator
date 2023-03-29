@@ -2,6 +2,9 @@
 #include <fstream>
 #include <random>
 #include <string>
+#include <chrono>
+
+using namespace std::chrono;
 
 std::ofstream plik;
 std::random_device rdev;
@@ -11,7 +14,7 @@ int MAX_LENGTH_OF_NUMBER = 9;
 
 int generateRandomNumber(int min, int max) {
     std::mt19937 rgen(rdev());
-    std::uniform_int_distribution<int> idist(min, max);
+    std::uniform_int_distribution < int > idist(min, max);
     return idist(rgen);
 }
 
@@ -26,17 +29,22 @@ std::string generateRandomString(int len) {
 
 
 
-int main()
-{
+int main() {
     plik.open("operations.txt");
     if (!plik.good()) {
         std::cout << "Error while opening file!\n";
         return 0;
     }
     int num_counter = 0;
-    std::string sign_array[4] = {"+", "-", "*", "/"};
+    std::string sign_array[4] = {
+      "+",
+      "-",
+      "*",
+      "/"
+    };
     std::cout << "Ile wygenerowac operacji do pliku?\n";
     std::cin >> num_counter;
+    auto start = high_resolution_clock::now();
     for (int i = 0; i < num_counter; i++) {
         int random_length_number = generateRandomNumber(MIN_LENGTH_OF_NUMBER, MAX_LENGTH_OF_NUMBER);
         int random_index_sign = generateRandomNumber(0, 3);
@@ -47,6 +55,9 @@ int main()
         plik << first_random_number + random_sign + second_random_number + "\n";
     }
     plik.close();
-    plik.good() ? std::cout << "Poprawnie zapisano " << num_counter << " operacji" : std::cout << "Blad podczas zapisu";
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    plik.good() ? std::cout << "Poprawnie zapisano " << num_counter << " operacji\n" : std::cout << "Blad podczas zapisu\n";
+    std::cout << "Time taken by put to file operations: " << duration.count() << " ms\n";
     return 0;
 }
