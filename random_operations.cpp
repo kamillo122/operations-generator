@@ -6,7 +6,7 @@
 
 using namespace std::chrono;
 
-std::ofstream plik;
+std::ofstream file;
 std::random_device rdev;
 
 int MIN_LENGTH_OF_NUMBER = 4;
@@ -30,8 +30,8 @@ std::string generateRandomString(int len) {
 
 
 int main() {
-    plik.open("operations.txt");
-    if (!plik.good()) {
+    file.open("operations.txt");
+    if (!file.good()) {
         std::cout << "Error while opening file!\n";
         return 0;
     }
@@ -52,12 +52,12 @@ int main() {
         random_length_number = generateRandomNumber(MIN_LENGTH_OF_NUMBER, MAX_LENGTH_OF_NUMBER);
         std::string second_random_number = generateRandomString(random_length_number);
         std::string random_sign = sign_array[random_index_sign];
-        plik << first_random_number + random_sign + second_random_number + "\n";
+        file << first_random_number + random_sign + second_random_number + "\n";
     }
-    plik.close();
+    file.close();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
-    plik.good() ? std::cout << "Successfully saved " << num_counter << " operations\n" : std::cout << "Error while saving\n";
+    file.good() ? std::cout << "Successfully saved " << num_counter << " operations\n" : std::cout << "Error while saving\n";
     std::cout << "Time taken by put to file operations: " << duration.count() << " ms\n";
     return 0;
 }
